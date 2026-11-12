@@ -1,0 +1,27 @@
+name: Build Astra 2.4 IPA
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Build Unsigned IPA
+        run: |
+          chmod +x build_ipa.sh
+          ./build_ipa.sh
+
+      - name: Upload Astra_2.4_new.ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: Astra_2.4_new
+          path: Astra_2.4_new.ipa
